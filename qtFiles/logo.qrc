@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>symvolika-1.png</file>
+  </qresource>
+</RCC>
