@@ -141,6 +141,6 @@ class Ui_Department(object):
         self.tableWidget_2.setSortingEnabled(True)
         self.pushButton_17.setText(_translate("Management", "Видалити вибраний запис"))
         self.label.setText(_translate("Management", "Факультет"))
-
+import WindowFiles.img.image_rc
 
 

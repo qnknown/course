@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
         self.menuInfo.setTitle(_translate("MainWindow", "Info"))
         self.action.setText(_translate("MainWindow", "Що це за програма"))
 
-import WindowFiles.image_rc
-import WindowFiles.logo_rc
+import WindowFiles.img.image_rc
+import WindowFiles.img.logo_rc
 
 

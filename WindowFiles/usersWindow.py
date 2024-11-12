@@ -186,4 +186,4 @@ class Ui_usersWindow(object):
         self.lineEdit_18.setPlaceholderText(_translate("resultWindow", "Новий пароль"))
         self.label_2.setText(_translate("resultWindow", "Права доступу"))
         self.label_4.setText(_translate("resultWindow", "Юзер"))
-import WindowFiles.image_rc
+import WindowFiles.img.image_rc

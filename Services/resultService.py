@@ -107,14 +107,14 @@ class Result:
                             id = int(id_item.text())
                             applicant_id = int(applicant_id_item.text())
                             exam_id = int(exam_id_item.text())
-                            score = int(score_item.text())
+                            score = float(score_item.text())  # Convert to float for DECIMAL type
 
                             update_query = """
                                 UPDATE examresults
                                 SET applicant_id = %s, exam_id = %s, score = %s
                                 WHERE id = %s
                             """
-                            cursor.execute(update_query, (applicant_id, exam_id, score))
+                            cursor.execute(update_query, (applicant_id, exam_id, score, id))
                         except ValueError as ve:
                             print(f"ValueError in row {row}: {ve}")
                         except Exception as ex:

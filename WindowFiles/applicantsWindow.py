@@ -152,3 +152,4 @@ class Ui_Applicants(object):
         self.pushButton_18.setText(_translate("Management", "Зберегти зміни"))
         self.tableWidget_2.setSortingEnabled(True)
         self.pushButton_17.setText(_translate("Management", "Видалити вибраний запис"))
+import WindowFiles.img.image_rc

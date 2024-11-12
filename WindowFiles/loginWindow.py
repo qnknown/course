@@ -13,6 +13,8 @@ from Services.login_logic import login
 from Services.reset_logic import reset
 from Modules.managementWindowModule import ManagementWindow
 
+import globals
+
 class Ui_loginWindow(object):
     def setupUi(self, loginWindow):
 
@@ -94,11 +96,12 @@ class Ui_loginWindow(object):
         password = self.lineEdit_2.text()
 
         if login(username, password):
+            globals.username = username
             QtWidgets.QMessageBox.information(None, "Успіх", "Логін пройшов успішно!")
             self.management_window = ManagementWindow(username)
             self.management_window.show()
         else:
             QtWidgets.QMessageBox.critical(None, "Помилка", "Перевірте правильність даних.")
-
+import WindowFiles.img.image_rc
 
 

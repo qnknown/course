@@ -102,7 +102,41 @@ class Ui_resultWindow(object):
 
         self.results = Result(self.connection)
 
+        self.lineEdit_6.textChanged.connect(self.search)
+
+        self.results.load_data_to_tablewidget(self.tableWidget_2)
         self.results.load_combobox_data(self.comboBox_8, self.comboBox_4)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        applicant_id = self.comboBox_8.currentData()
+        exam_id = self.comboBox_4.currentData()
+        score = self.lineEdit_16.text()
+
+        if not applicant_id or exam_id is None:
+            print("Всі поля повинні бути заповнені!")
+            return
+
+        self.results.save_data(applicant_id, exam_id, score)
+        self.results.load_data_to_tablewidget(self.tableWidget_2)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.results.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.results.delete_selected_record(self.tableWidget_2)
+
+    def update_data(self):
+        self.results.update_data(self.tableWidget_2)
+
 
     def retranslateUi(self, resultWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -117,7 +151,7 @@ class Ui_resultWindow(object):
         self.pushButton_18.setText(_translate("resultWindow", "Зберегти зміни"))
         self.label.setText(_translate("resultWindow", "Іспит"))
         self.label_2.setText(_translate("resultWindow", "Студент"))
-import WindowFiles.image_rc
+import WindowFiles.img.image_rc
 
 
 

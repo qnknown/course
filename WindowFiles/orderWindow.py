@@ -144,3 +144,4 @@ class Ui_orderWindow(object):
         self.label_2.setText(_translate("orderWindow", "Чи маєте пільги?"))
         self.label_3.setText(_translate("orderWindow", "Вступ чи перевод"))
         self.pushButton_5.setText(_translate("orderWindow", "Відправити"))
+import WindowFiles.img.image_rc

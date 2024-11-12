@@ -14,8 +14,18 @@ from Modules.applicantsWindowModule import ApplicantsWindow
 from Modules.departmentWindowModule import DepartmentWindow
 from Modules.resultWindowModule import ResultWindow
 from Modules.usersWindowModule import UsersWindow
+from Modules.facultyWindowModule import FacultyWindow
+from Modules.examWindowModule import ExamWindow
+from Modules.groupWindowModule import GroupWindow
+from Modules.relationWindowModule import RelationWindow
+from Modules.specWindowModule import SpecWindow
+from Modules.subjectWindowModule import SubjectsWindow
+from Modules.teacherWindowModule import TeachersWindow
+from Modules.queryWindowModule import QueryWindow
 
 from Services.login_logic import DatabaseConnection
+
+import globals
 
 import pymysql
 
@@ -96,12 +106,21 @@ class Ui_Management(object):
         self.statusbar = QtWidgets.QStatusBar(Management)
         self.statusbar.setObjectName("statusbar")
         Management.setStatusBar(self.statusbar)
+        self.queryButton = QtWidgets.QPushButton(self.centralwidget)
+        self.queryButton.setGeometry(QtCore.QRect(620, 530, 221, 71))  # Позиція під існуючою кнопкою
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.queryButton.setFont(font)
+        self.queryButton.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.queryButton.setObjectName("queryButton")
 
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
         self.connection = DatabaseConnection.get_connection()
         self.loadTables()
         self.pushButton.clicked.connect(self.openApp)
+        self.queryButton.clicked.connect(self.openQuery)
 
     def openApp(self):
             page = self.comboBox.currentIndex()
@@ -115,13 +134,35 @@ class Ui_Management(object):
             elif page == 2:
                     self.app_window = ResultWindow()
                     self.app_window.show()
+            elif page == 3:
+                    self.app_window = ExamWindow()
+                    self.app_window.show()
+            elif page == 4:
+                    self.app_window = RelationWindow()
+                    self.app_window.show()
+            elif page == 5:
+                    self.app_window = FacultyWindow()
+                    self.app_window.show()
+            elif page == 6:
+                    self.app_window = GroupWindow()
+                    self.app_window.show()
             elif page == 7:
                     self.app_window = UsersWindow()
+                    self.app_window.show()
+            elif page == 8:
+                    self.app_window = SpecWindow()
+                    self.app_window.show()
+            elif page == 9:
+                    self.app_window = SubjectsWindow()
+                    self.app_window.show()
+            elif page == 10:
+                    self.app_window = TeachersWindow()
                     self.app_window.show()
             else: return
 
     def loadTables(self):
             try:
+                    print(globals.username)
                     with self.connection.cursor() as cursor:
                             cursor.execute("SHOW TABLES")
                             tables = cursor.fetchall()
@@ -132,6 +173,10 @@ class Ui_Management(object):
 
             except pymysql.MySQLError as e:
                     print(f"Помилка підключення: {e}")
+
+    def openQuery(self):
+            self.app_window = QueryWindow()
+            self.app_window.show()
 
 
     def retranslateUi(self, Management):
@@ -147,6 +192,8 @@ class Ui_Management(object):
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">За допомогою цієї системи ви можете переглядати та <br />редагувати реєстр вступників ЧНУ, виставляти оцінки,<br />формувати рейтингові списки та виконувати запити.</span></p></body></html>"))
         self.label_5.setText(_translate("Management", "Виберіть сторінку"))
         self.pushButton.setText(_translate("Management", "Перейти"))
+        self.queryButton.setText(_translate("Management", "Запити"))
+
 
 
 
