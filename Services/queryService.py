@@ -72,14 +72,26 @@ class Query:
 
     def query3(self, table_widget, specialty_id):
         query = f"""
-        
+        SELECT subjects.name
+        FROM specialties
+        JOIN grupy ON specialties.group_id = grupy.group_id
+        JOIN exams ON grupy.exam_id = exams.id
+        JOIN subjects ON subjects.subjectID IN (exams.subject1, exams.subject2, exams.subject3)
+        WHERE specialties.id = {specialty_id};
         """
-        headers = ["Discipline"]
+        headers = ["Name"]
         self.display_query_result(table_widget, query, headers)
 
     def query4(self, table_widget, specialty_id):
         query = f"""
-        
+        SELECT exams.name AS exam_name, AVG(examresults.score) AS average_score
+        FROM specialties
+        JOIN grupy ON specialties.group_id = grupy.group_id
+        JOIN exams ON grupy.exam_id = exams.id
+        JOIN examresults ON examresults.exam_id = exams.id
+        JOIN applicants ON applicants.id = examresults.applicant_id
+        WHERE specialties.id = {specialty_id}
+        GROUP BY exams.id;
         """
         headers = ["Exam", "Average Score"]
         self.display_query_result(table_widget, query, headers)
@@ -96,7 +108,7 @@ class Query:
         headers = ["Факультет", "К-сть заяв"]
         self.display_query_result(table_widget, query, headers)
 
-    def query51(self, table_widget):
+    def query52(self, table_widget):
         query = """
         SELECT specialties.name AS specialty_name, COUNT(applicants.id) AS total_applications
         FROM specialties
@@ -106,7 +118,7 @@ class Query:
         headers = ["Спеціальність", "К-сть заяв"]
         self.display_query_result(table_widget, query, headers)
 
-    def query52(self, table_widget):
+    def query53(self, table_widget):
         query = """
         SELECT specialties.name AS specialty_name, COUNT(applicants.id) AS total_applications
         FROM specialties
@@ -117,25 +129,34 @@ class Query:
         headers = ["Спеціальність", "К-сть заяв"]
         self.display_query_result(table_widget, query, headers)
 
-    def query6(self, table_widget):
-        query = """
-        
+    def query6(self, table_widget, faculty_id):
+        query = f"""
+        SELECT applicants.*
+        FROM applicants
+        JOIN specialties ON applicants.specialty_id = specialties.id
+        JOIN departments ON specialties.department_id = departments.id
+        JOIN faculties ON departments.faculty_id = faculties.id
+        WHERE faculties.id = {faculty_id};
         """
-        headers = ["Applicant ID", "Name", "Faculty ID", "Specialty ID", "Privileges"]
+        headers = ["ID", "Ім'я", "Спеціальність", "Пільги", "Перевод", "Група"]
         self.display_query_result(table_widget, query, headers)
 
-    def query61(self, table_widget):
-        query = """
-
+    def query62(self, table_widget, specialty_id):
+        query = f"""
+        SELECT applicants.*
+        FROM applicants
+        WHERE applicants.specialty_id = {specialty_id};
         """
-        headers = ["Applicant ID", "Name", "Faculty ID", "Specialty ID", "Privileges"]
+        headers = ["ID", "Ім'я", "Спеціальність", "Пільги", "Перевод", "Група"]
         self.display_query_result(table_widget, query, headers)
 
-    def query62(self, table_widget):
+    def query63(self, table_widget):
         query = """
-
+        SELECT applicants.*
+        FROM applicants
+        WHERE applicants.is_privileged = 1;
         """
-        headers = ["Applicant ID", "Name", "Faculty ID", "Specialty ID", "Privileges"]
+        headers = ["ID", "Ім'я", "Спеціальність", "Пільги", "Перевод", "Група"]
         self.display_query_result(table_widget, query, headers)
 
     def query7(self, table_widget):
@@ -147,7 +168,7 @@ class Query:
         headers = ["К-сть переводів"]
         self.display_query_result(table_widget, query, headers)
 
-    def query71(self, table_widget):
+    def query72(self, table_widget):
         query = """
         SELECT COUNT(DISTINCT a1.id) AS matched_transfer_count
         FROM applicants a1
@@ -170,13 +191,6 @@ class Query:
         headers = ["Applicant ID", "Exam", "Score"]
         self.display_query_result(table_widget, query, headers)
 
-    def query81(self, table_widget):
-        query = """
-
-        """
-        headers = ["Applicant ID", "Exam", "Score"]
-        self.display_query_result(table_widget, query, headers)
-
     def query82(self, table_widget):
         query = """
 
@@ -191,11 +205,21 @@ class Query:
         headers = ["Applicant ID", "Exam", "Score"]
         self.display_query_result(table_widget, query, headers)
 
-    def query9(self, table_widget, exam_name=None):
-        query = f"""
-        
+    def query84(self, table_widget):
+        query = """
+
         """
-        headers = ["Teacher ID", "Name", "Activity", "Schedule"]
+        headers = ["Applicant ID", "Exam", "Score"]
+        self.display_query_result(table_widget, query, headers)
+
+    def query9(self, table_widget, exam_id):
+        query = f"""
+        SELECT teachers.*
+        FROM teachers
+        JOIN examteachers ON teachers.id = examteachers.teacher_id
+        WHERE examteachers.exam_id = {exam_id};
+        """
+        headers = ["ID", "Викладач"]
         self.display_query_result(table_widget, query, headers)
 
     def query10(self, table_widget):

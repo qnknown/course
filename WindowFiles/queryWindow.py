@@ -21,11 +21,13 @@ class Ui_Query(object):
         icon.addPixmap(QtGui.QPixmap("../Downloads/symvolika-1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Management.setWindowIcon(icon)
         Management.setStyleSheet("background: #5472DE;\n"
-"background-image: url(:/newPrefix/649eb8ca76c20 (1).png);")
+                                 "background-image: url(:/newPrefix/649eb8ca76c20 (1).png);")
         self.centralwidget = QtWidgets.QWidget(Management)
         self.centralwidget.setObjectName("centralwidget")
+
+        # Adjusted label position
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(620, 50, 741, 111))
+        self.label_3.setGeometry(QtCore.QRect(600, 50, 741, 111))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(25)
@@ -37,8 +39,10 @@ class Ui_Query(object):
         self.label_3.setTextFormat(QtCore.Qt.AutoText)
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
+
+        # Adjusted combo box label position
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
-        self.label_9.setGeometry(QtCore.QRect(1390, 200, 281, 111))
+        self.label_9.setGeometry(QtCore.QRect(1370, 180, 281, 111))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(16)
@@ -50,12 +54,22 @@ class Ui_Query(object):
         self.label_9.setTextFormat(QtCore.Qt.AutoText)
         self.label_9.setAlignment(QtCore.Qt.AlignCenter)
         self.label_9.setObjectName("label_9")
+
+        # Line edit above combo box
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(1390, 270, 300, 40))  # New line edit above combo box
+        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit.setObjectName("lineEdit")
+
+        # Adjusted button position and width
         self.pushButton_16 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_16.setGeometry(QtCore.QRect(1410, 390, 251, 51))
+        self.pushButton_16.setGeometry(QtCore.QRect(1390, 460, 300, 60))  # Adjusted button position
         self.pushButton_16.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.pushButton_16.setObjectName("pushButton_16")
+
+        # Adjusted table widget position
         self.tableWidget_2 = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget_2.setGeometry(QtCore.QRect(210, 220, 1161, 701))
+        self.tableWidget_2.setGeometry(QtCore.QRect(190, 220, 1161, 701))
         self.tableWidget_2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.tableWidget_2.setShowGrid(True)
         self.tableWidget_2.setWordWrap(False)
@@ -63,18 +77,21 @@ class Ui_Query(object):
         self.tableWidget_2.setColumnCount(0)
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.horizontalHeader().setCascadingSectionResizes(False)
+
+        # Adjusted combo box position and width
         self.comboBox_5 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_5.setGeometry(QtCore.QRect(1410, 320, 251, 51))
+        self.comboBox_5.setGeometry(QtCore.QRect(1390, 350, 300, 60))  # Adjusted combo box position
         self.comboBox_5.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.comboBox_5.setObjectName("comboBox_5")
+
         Management.setCentralWidget(self.centralwidget)
 
+        # Database connection and query initialization
         self.connection = DatabaseConnection.get_connection()
-
         self.query = Query(self.connection)
 
+        # Load query names and connect button
         self.load_query_names()
-
         self.pushButton_16.clicked.connect(self.execute_selected_query)
 
         self.retranslateUi(Management)
@@ -111,26 +128,47 @@ class Ui_Query(object):
         if selected_index == 0:
             self.query.query1(self.tableWidget_2)
         elif selected_index == 1:
-            self.query.query2(self.tableWidget_2)
+            self.query.query12(self.tableWidget_2)
         elif selected_index == 2:
-            specialty_id = self.get_specialty_id()
-            self.query.query3(self.tableWidget_2, specialty_id)
+            self.query.query13(self.tableWidget_2)
         elif selected_index == 3:
-            specialty_id = self.get_specialty_id()
-            self.query.query4(self.tableWidget_2, specialty_id)
+            self.query.query2(self.tableWidget_2)
         elif selected_index == 4:
-            self.query.query5(self.tableWidget_2)
+            specialty_id = self.lineEdit.text()
+            self.query.query3(self.tableWidget_2, specialty_id)
         elif selected_index == 5:
-            faculty_id, specialty_id, privileges = self.get_filter_options()
-            self.query.query6(self.tableWidget_2, faculty_id, specialty_id, privileges)
+            specialty_id = self.lineEdit.text()
+            self.query.query4(self.tableWidget_2, specialty_id)
         elif selected_index == 6:
-            self.query.query7(self.tableWidget_2)
+            self.query.query5(self.tableWidget_2)
         elif selected_index == 7:
-            self.query.query8(self.tableWidget_2)
+            self.query.query52(self.tableWidget_2)
         elif selected_index == 8:
-            exam_name = self.get_exam_name()
-            self.query.query9(self.tableWidget_2, exam_name)
+            self.query.query53(self.tableWidget_2)
         elif selected_index == 9:
+            faculty_id = self.lineEdit.text()
+            self.query.query6(self.tableWidget_2, faculty_id)
+        elif selected_index == 10:
+            specialty_id = self.lineEdit.text()
+            self.query.query62(self.tableWidget_2)
+        elif selected_index == 11:
+            self.query.query63(self.tableWidget_2)
+        elif selected_index == 12:
+            self.query.query7(self.tableWidget_2)
+        elif selected_index == 13:
+            self.query.query72(self.tableWidget_2)
+        elif selected_index == 14:
+            self.query.query8(self.tableWidget_2)
+        elif selected_index == 15:
+            self.query.query82(self.tableWidget_2)
+        elif selected_index == 16:
+            self.query.query83(self.tableWidget_2)
+        elif selected_index == 17:
+            self.query.query84(self.tableWidget_2)
+        elif selected_index == 18:
+            exam_id = self.lineEdit.text()
+            self.query.query9(self.tableWidget_2, exam_id)
+        elif selected_index == 19:
             self.query.query10(self.tableWidget_2)
 
     def retranslateUi(self, Management):
@@ -139,5 +177,6 @@ class Ui_Query(object):
         self.label_3.setText(_translate("Management", "Виконати запит"))
         self.label_9.setText(_translate("Management", "Виберіть запит"))
         self.pushButton_16.setText(_translate("Management", "Виконати"))
+        self.lineEdit.setPlaceholderText(_translate("Management", "Опція для запиту"))
         self.tableWidget_2.setSortingEnabled(True)
 import WindowFiles.img.image_rc
