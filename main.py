@@ -21,6 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def open_login_window(self):
         self.login_window = LoginWindow()
         self.login_window.show()
+        self.close()
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

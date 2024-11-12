@@ -9,6 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Services.queryService import Query
+from Services.login_logic import DatabaseConnection
 
 
 class Ui_Query(object):
@@ -67,8 +69,69 @@ class Ui_Query(object):
         self.comboBox_5.setObjectName("comboBox_5")
         Management.setCentralWidget(self.centralwidget)
 
+        self.connection = DatabaseConnection.get_connection()
+
+        self.query = Query(self.connection)
+
+        self.load_query_names()
+
+        self.pushButton_16.clicked.connect(self.execute_selected_query)
+
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
+
+    def load_query_names(self):
+        query_names = [
+            "Запит 1: Групи з 3-ма екзаменами",
+            "Запит 1.2: Групи з більше 3 екзаменів",
+            "Запит 1.3: Групи з творчим конкурсом",
+            "Запит 2: Групи з різними спеціальностями",
+            "Запит 3: Дисципліни для спеціальності",
+            "Запит 4: Середній бал по екзаменам для спеціальності",
+            "Запит 5: Кількість заявок на факультет",
+            "Запит 5.2: Кількість заявок на спеціальність",
+            "Запит 5.3: Спеціальності з менше 10 заявками",
+            "Запит 6: Абітурієнти на заданий факультет",
+            "Запит 6.2: Абітурієнти на задану спеціальність",
+            "Запит 6.3: Абітурієнти-пільговики",
+            "Запит 7: Абітурієнти на механізм переводу",
+            "Запит 7.2: Абітурієнти на механізм переводу з тими ж самими іспитами",
+            "Запит 8: Абітурієнти з результатами нижче прохідного балу",
+            "Запит 8.2: Абітурієнти провалили 1 предмет",
+            "Запит 8.3: Абітурієнти провалили 2 предмета",
+            "Запит 8.4: Абітурієнти провалили творчий конкурс",
+            "Запит 9: Викладачі які приймають заданий екзамен",
+            "Запит 10: Спеціальності з екзаменом 'Математика'"
+        ]
+        self.comboBox_5.addItems(query_names)
+
+    def execute_selected_query(self):
+        selected_index = self.comboBox_5.currentIndex()
+
+        if selected_index == 0:
+            self.query.query1(self.tableWidget_2)
+        elif selected_index == 1:
+            self.query.query2(self.tableWidget_2)
+        elif selected_index == 2:
+            specialty_id = self.get_specialty_id()
+            self.query.query3(self.tableWidget_2, specialty_id)
+        elif selected_index == 3:
+            specialty_id = self.get_specialty_id()
+            self.query.query4(self.tableWidget_2, specialty_id)
+        elif selected_index == 4:
+            self.query.query5(self.tableWidget_2)
+        elif selected_index == 5:
+            faculty_id, specialty_id, privileges = self.get_filter_options()
+            self.query.query6(self.tableWidget_2, faculty_id, specialty_id, privileges)
+        elif selected_index == 6:
+            self.query.query7(self.tableWidget_2)
+        elif selected_index == 7:
+            self.query.query8(self.tableWidget_2)
+        elif selected_index == 8:
+            exam_name = self.get_exam_name()
+            self.query.query9(self.tableWidget_2, exam_name)
+        elif selected_index == 9:
+            self.query.query10(self.tableWidget_2)
 
     def retranslateUi(self, Management):
         _translate = QtCore.QCoreApplication.translate
