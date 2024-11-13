@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Services.login_logic import DatabaseConnection
+from Services.teachersService import Teachers
 
 class Ui_Teachers(object):
     def setupUi(self, Management):
@@ -79,8 +81,43 @@ class Ui_Teachers(object):
         self.pushButton_17.setObjectName("pushButton_17")
         Management.setCentralWidget(self.centralwidget)
 
+        self.connection = DatabaseConnection.get_connection()
+
+        self.teachers = Teachers(self.connection)
+        self.teachers.load_data_to_tablewidget(self.tableWidget_2)
+
+        self.lineEdit_6.textChanged.connect(self.search)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.teachers.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.teachers.delete_selected_record(self.tableWidget_2)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        name = self.lineEdit_16.text()
+
+        if not name:
+            print("Всі поля повинні бути заповнені!")
+            return
+
+        self.teachers.save_data(name)
+        self.teachers.load_data_to_tablewidget(self.tableWidget_2)
+
+    def update_data(self):
+        self.teachers.update_data(self.tableWidget_2)
 
     def retranslateUi(self, Management):
         _translate = QtCore.QCoreApplication.translate

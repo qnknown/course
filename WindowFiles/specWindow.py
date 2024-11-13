@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Services.login_logic import DatabaseConnection
+from Services.specService import Specialties
 
 class Ui_Specialties(object):
     def setupUi(self, Management):
@@ -93,8 +95,47 @@ class Ui_Specialties(object):
         self.label_2.setObjectName("label_2")
         Management.setCentralWidget(self.centralwidget)
 
+        self.connection = DatabaseConnection.get_connection()
+
+        self.specialties = Specialties(self.connection)
+        self.specialties.load_data_to_tablewidget(self.tableWidget_2)
+
+        self.lineEdit_6.textChanged.connect(self.search)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+        self.specialties.load_combobox_data(self.comboBox_4, self.comboBox_5)
+
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.specialties.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.specialties.delete_selected_record(self.tableWidget_2)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        name = self.lineEdit_16.text()
+        department_id = self.comboBox_4.currentData()
+        group_id = self.comboBox_5.currentData()
+
+
+        if not name:
+            print("Всі поля повинні бути заповнені!")
+            return
+
+        self.specialties.save_data(name, department_id, group_id)
+        self.specialties.load_data_to_tablewidget(self.tableWidget_2)
+
+    def update_data(self):
+        self.specialties.update_data(self.tableWidget_2)
 
     def retranslateUi(self, Management):
         _translate = QtCore.QCoreApplication.translate

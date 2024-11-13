@@ -10,6 +10,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Services.login_logic import DatabaseConnection
+from Services.groupService import Groups
+
 
 class Ui_groupWindow(object):
     def setupUi(self, Management):
@@ -86,8 +89,46 @@ class Ui_groupWindow(object):
         self.label.setObjectName("label")
         Management.setCentralWidget(self.centralwidget)
 
+        self.connection = DatabaseConnection.get_connection()
+
+        self.groups = Groups(self.connection)
+        self.groups.load_data_to_tablewidget(self.tableWidget_2)
+
+        self.lineEdit_6.textChanged.connect(self.search)
+        self.groups.load_combobox_data(self.comboBox_4)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.groups.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.groups.delete_selected_record(self.tableWidget_2)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        name = self.lineEdit_16.text()
+        exam_id = self.comboBox_4.currentData()
+
+
+        if not name or exam_id is None:
+            print("Всі поля повинні бути заповнені!")
+            return
+
+        self.groups.save_data(name, exam_id)
+        self.groups.load_data_to_tablewidget(self.tableWidget_2)
+
+    def update_data(self):
+        self.groups.update_data(self.tableWidget_2)
 
     def retranslateUi(self, Management):
         _translate = QtCore.QCoreApplication.translate

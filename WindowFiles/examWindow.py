@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Services.login_logic import DatabaseConnection
+from Services.examService import Exams
 
 class Ui_examWindow(object):
     def setupUi(self, resultWindow):
@@ -109,6 +111,46 @@ class Ui_examWindow(object):
 
         self.retranslateUi(resultWindow)
         QtCore.QMetaObject.connectSlotsByName(resultWindow)
+
+        self.connection = DatabaseConnection.get_connection()
+
+        self.exams = Exams(self.connection)
+        self.exams.load_data_to_tablewidget(self.tableWidget_2)
+
+        self.lineEdit_6.textChanged.connect(self.search)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+        self.exams.load_combobox_data(self.comboBox_5, self.comboBox_8, self.comboBox_4, self.comboBox_6)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.exams.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.exams.delete_selected_record(self.tableWidget_2)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        name = self.lineEdit_16.text()
+        subject_1 = self.comboBox_8.currentData()
+        subject_2 = self.comboBox_4.currentData()
+        subject_3 = self.comboBox_5.currentData()
+        is_creative = self.comboBox_6.currentData()
+
+        if not name:
+            print("Всі поля повинні бути заповнені!")
+            return
+
+        self.exams.save_data(name, subject_1, subject_2, subject_3, is_creative)
+        self.exams.load_data_to_tablewidget(self.tableWidget_2)
+
+    def update_data(self):
+        self.exams.update_data(self.tableWidget_2)
 
     def retranslateUi(self, resultWindow):
         _translate = QtCore.QCoreApplication.translate

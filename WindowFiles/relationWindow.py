@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Services.login_logic import DatabaseConnection
+from Services.relationService import Relations
 
 class Ui_Relations(object):
     def setupUi(self, Management):
@@ -91,6 +93,40 @@ class Ui_Relations(object):
 
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
+
+        self.connection = DatabaseConnection.get_connection()
+
+        self.relations = Relations(self.connection)
+        self.relations.load_data_to_tablewidget(self.tableWidget_2)
+
+        self.lineEdit_6.textChanged.connect(self.search)
+
+        self.pushButton_16.clicked.connect(self.save_data)
+        self.pushButton_17.clicked.connect(self.delete_record)
+        self.pushButton_18.clicked.connect(self.update_data)
+        self.relations.load_exam_combobox_data(self.comboBox_5)
+        self.relations.load_teacher_combobox_data(self.comboBox_6)
+
+    def search(self):
+        keyword = self.lineEdit_6.text()
+        self.relations.search_data(keyword, self.tableWidget_2)
+
+    def delete_record(self):
+        self.relations.delete_selected_record(self.tableWidget_2)
+
+    def save_data(self):
+        if self.connection is None:
+            print("З'єднання з базою даних не встановлене.")
+            return
+
+        exam_id = self.comboBox_5.currentData()
+        teacher_id = self.comboBox_6.currentData()
+
+        self.relations.save_data(exam_id, teacher_id)
+        self.relations.load_data_to_tablewidget(self.tableWidget_2)
+
+    def update_data(self):
+        self.relations.update_data(self.tableWidget_2)
 
     def retranslateUi(self, Management):
         _translate = QtCore.QCoreApplication.translate
