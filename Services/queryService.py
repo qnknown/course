@@ -1,7 +1,6 @@
 import pymysql
 from PyQt5.QtWidgets import QTableWidgetItem
 
-
 class Query:
     def __init__(self, connection):
         self.connection = connection
@@ -77,7 +76,7 @@ class Query:
         JOIN grupy ON specialties.group_id = grupy.group_id
         JOIN exams ON grupy.exam_id = exams.id
         JOIN subjects ON subjects.subjectID IN (exams.subject1, exams.subject2, exams.subject3)
-        WHERE specialties.id = {specialty_id};
+        WHERE specialties.name = "{specialty_id}";
         """
         headers = ["Name"]
         self.display_query_result(table_widget, query, headers)
@@ -90,7 +89,7 @@ class Query:
         JOIN exams ON grupy.exam_id = exams.id
         JOIN examresults ON examresults.exam_id = exams.id
         JOIN applicants ON applicants.id = examresults.applicant_id
-        WHERE specialties.id = {specialty_id}
+        WHERE specialties.name = "{specialty_id}"
         GROUP BY exams.id;
         """
         headers = ["Exam", "Average Score"]
@@ -136,7 +135,7 @@ class Query:
         JOIN specialties ON applicants.specialty_id = specialties.id
         JOIN departments ON specialties.department_id = departments.id
         JOIN faculties ON departments.faculty_id = faculties.id
-        WHERE faculties.id = {faculty_id};
+        WHERE faculties.name = "{faculty_id}";
         """
         headers = ["ID", "Ім'я", "Спеціальність", "Пільги", "Перевод", "Група"]
         self.display_query_result(table_widget, query, headers)
@@ -186,30 +185,52 @@ class Query:
 
     def query8(self, table_widget):
         query = """
-        
+        SELECT a.id, a.name, COUNT(er.score) AS failed_subjects
+        FROM course.applicants a
+        JOIN course.examresults er ON a.id = er.applicant_id
+        JOIN course.exams e ON er.exam_id = e.id
+        WHERE er.score < 60
+        GROUP BY a.id
+        HAVING COUNT(er.score) = (SELECT COUNT(*) 
+                          FROM course.examresults 
+                          WHERE applicant_id = a.id);
         """
-        headers = ["Applicant ID", "Exam", "Score"]
+        headers = ["ID", "Ім'я", "К-сть провалених іспитів"]
         self.display_query_result(table_widget, query, headers)
 
     def query82(self, table_widget):
         query = """
-
+        SELECT a.id, a.name, COUNT(er.score) AS failed_subjects
+        FROM course.applicants a
+        JOIN course.examresults er ON a.id = er.applicant_id
+        WHERE er.score < 60
+        GROUP BY a.id
+        HAVING COUNT(er.score) = 1;
         """
-        headers = ["Applicant ID", "Exam", "Score"]
+        headers = ["ID", "Ім'я", "К-сть провалених іспитів"]
         self.display_query_result(table_widget, query, headers)
 
     def query83(self, table_widget):
         query = """
-
+        SELECT a.id, a.name, COUNT(er.score) AS failed_subjects
+        FROM course.applicants a
+        JOIN course.examresults er ON a.id = er.applicant_id
+        WHERE er.score < 60
+        GROUP BY a.id
+        HAVING COUNT(er.score) = 2;
         """
-        headers = ["Applicant ID", "Exam", "Score"]
+        headers = ["ID", "Ім'я", "К-сть провалених іспитів"]
         self.display_query_result(table_widget, query, headers)
 
     def query84(self, table_widget):
         query = """
-
+        SELECT a.name, e.name AS exam_name, er.score
+        FROM course.applicants a
+        JOIN course.examresults er ON a.id = er.applicant_id
+        JOIN course.exams e ON er.exam_id = e.id
+        WHERE e.creative = 1 AND er.score < 10;
         """
-        headers = ["Applicant ID", "Exam", "Score"]
+        headers = ["Ім'я", "Екзамен", "Оцінка"]
         self.display_query_result(table_widget, query, headers)
 
     def query9(self, table_widget, exam_id):

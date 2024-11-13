@@ -150,7 +150,7 @@ class Ui_Query(object):
             self.query.query6(self.tableWidget_2, faculty_id)
         elif selected_index == 10:
             specialty_id = self.lineEdit.text()
-            self.query.query62(self.tableWidget_2)
+            self.query.query62(self.tableWidget_2, specialty_id)
         elif selected_index == 11:
             self.query.query63(self.tableWidget_2)
         elif selected_index == 12:
