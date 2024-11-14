@@ -141,7 +141,7 @@ class Ui_orderWindow(object):
         self.label_6.setText(_translate("orderWindow", "Створення заяви"))
         self.lineEdit_4.setPlaceholderText(_translate("orderWindow", "ПІБ"))
         self.label.setText(_translate("orderWindow", "Спеціальність"))
-        self.label_2.setText(_translate("orderWindow", "Чи маєте пільги?"))
-        self.label_3.setText(_translate("orderWindow", "Вступ чи перевод"))
+        self.label_2.setText(_translate("orderWindow", "Ви пільговик?"))
+        self.label_3.setText(_translate("orderWindow", "Ви переводитесь?"))
         self.pushButton_5.setText(_translate("orderWindow", "Відправити"))
 import WindowFiles.img.image_rc

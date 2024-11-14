@@ -9,7 +9,14 @@ def save_data(connection, name, specialty_id, is_privileged, transfer):
 
     try:
         with connection.cursor() as cursor:
-            # Отримати group_id для вибраної спеціальності
+            cursor.execute("SELECT id FROM applicants WHERE name = %s", (name,))
+            existing_application = cursor.fetchone()
+
+            if existing_application:
+                print("Ви вже подали заяву на одну спеціальність.")
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Ви вже подали заяву на одну спеціальність.")
+                return
+
             cursor.execute("SELECT group_id FROM specialties WHERE id = %s", (specialty_id,))
             result = cursor.fetchone()
 
@@ -17,9 +24,8 @@ def save_data(connection, name, specialty_id, is_privileged, transfer):
                 print("Спеціальність з таким ID не знайдена!")
                 return
 
-            group_id = result[0]  # Отримати значення group_id
+            group_id = result[0]
 
-            # Отримати назву групи для group_id
             cursor.execute("SELECT name FROM grupy WHERE group_id = %s", (group_id,))
             group_result = cursor.fetchone()
 
@@ -27,17 +33,16 @@ def save_data(connection, name, specialty_id, is_privileged, transfer):
                 print("Назва групи з таким ID не знайдена!")
                 return
 
-            group_name = group_result[0]  # Отримати назву групи
+            group_name = group_result[0]
 
-            # SQL-запит для вставки даних в базу
             sql = """
             INSERT INTO applicants (name, specialty_id, is_privileged, transfer, group_name)
             VALUES (%s, %s, %s, %s, %s)
             """
             cursor.execute(sql, (name, specialty_id, is_privileged, transfer, group_name))
 
-        connection.commit()  # Зберігаємо зміни в базі даних
-        QtWidgets.QMessageBox.information(None, "Успіх", "Дані успішно відправлені!")
+        connection.commit()
+        QtWidgets.QMessageBox.information(None, "Успіх", "Заява успішно подана!")
 
     except pymysql.MySQLError as e:
         print(f"Помилка збереження даних: {e}")

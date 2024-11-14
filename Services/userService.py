@@ -94,9 +94,17 @@ class Users:
 
         self.load_data_to_tablewidget(table_widget, query)
 
-
     def update_data(self, username, new_password, new_access):
         try:
+            # Check if the username is 'root' and prevent updating
+            if username == 'root':
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Critical)
+                msg_box.setWindowTitle("Error")
+                msg_box.setText("You cannot update the 'root' user data.")
+                msg_box.exec_()
+                return
+
             with self.connection.cursor() as cursor:
                 cursor.execute("SELECT access FROM `keys` WHERE username = %s", (globals.username,))
                 access_level = cursor.fetchone()
@@ -124,16 +132,12 @@ class Users:
                 msg_box.exec_()
 
         except pymysql.MySQLError as e:
-
             msg_box = QMessageBox()
             msg_box.setIcon(QMessageBox.Critical)
             msg_box.setWindowTitle("Error")
             msg_box.setText(f"Error while updating data: {e}")
             msg_box.exec_()
 
-
-        except pymysql.MySQLError as e:
-            print(f"Error updating data for user '{username}': {e}")
         except Exception as e:
             print(f"Unexpected error while updating data for user '{username}': {e}")
 

@@ -19,11 +19,13 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap("../Downloads/symvolika-1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("background: #5472DE;\n"
-"background-image: url(:/newPrefix/649eb8ca76c20 (1).png);")
+                                 "background-image: url(:/newPrefix/649eb8ca76c20 (1).png);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
+        # Shifting label_5 and widget down by 30
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(280, 70, 421, 111))
+        self.label_5.setGeometry(QtCore.QRect(280, 100, 421, 111))  # Shifted 30 pixels down
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(20)
@@ -35,13 +37,17 @@ class Ui_MainWindow(object):
         self.label_5.setTextFormat(QtCore.Qt.AutoText)
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_5.setObjectName("label_5")
+
+        # Shift widget down by 30
         self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setGeometry(QtCore.QRect(700, 70, 111, 111))
+        self.widget.setGeometry(QtCore.QRect(700, 100, 111, 111))  # Shifted 30 pixels down
         self.widget.setStyleSheet("image: url(:/newPrefix/symvolika-1.png);\n"
-"background: transparent;")
+                                  "background: transparent;")
         self.widget.setObjectName("widget")
+
+        # Shifting buttons down by 30
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(390, 210, 291, 81))
+        self.pushButton.setGeometry(QtCore.QRect(390, 240, 291, 81))  # Shifted 30 pixels down
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -49,8 +55,9 @@ class Ui_MainWindow(object):
         self.pushButton.setFont(font)
         self.pushButton.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.pushButton.setObjectName("pushButton")
+
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(390, 330, 291, 81))
+        self.pushButton_2.setGeometry(QtCore.QRect(390, 360, 291, 81))  # Shifted 30 pixels down
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -59,6 +66,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.pushButton_2.setObjectName("pushButton_2")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1080, 26))
@@ -76,17 +84,13 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Приймальна комісія ЧНУ"))
         self.label_5.setText(_translate("MainWindow", "Приймальна комісія ЧНУ"))
         self.pushButton.setText(_translate("MainWindow", "Подати заяву"))
         self.pushButton_2.setText(_translate("MainWindow", "Увійти в систему"))
-        self.menuInfo.setTitle(_translate("MainWindow", "Info"))
-        self.action.setText(_translate("MainWindow", "Що це за програма"))
+
 
 import WindowFiles.img.image_rc
 import WindowFiles.img.logo_rc
-
-
