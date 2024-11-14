@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 from Modules.applicantsWindowModule import ApplicantsWindow
 from Modules.departmentWindowModule import DepartmentWindow
@@ -52,7 +53,7 @@ class Ui_Management(object):
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(150, 100, 741, 41))
+        self.label_4.setGeometry(QtCore.QRect(150, 100, 741, 80))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(15)
@@ -115,12 +116,34 @@ class Ui_Management(object):
         self.queryButton.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.queryButton.setObjectName("queryButton")
 
+        # Add the menu bar
+        self.menubar = Management.menuBar()
+        self.aboutMenu = self.menubar.addMenu('Меню')
+        self.aboutAction = QtWidgets.QAction('Про доступи', Management)
+        self.aboutMenu.addAction(self.aboutAction)
+
         self.retranslateUi(Management)
         QtCore.QMetaObject.connectSlotsByName(Management)
         self.connection = DatabaseConnection.get_connection()
         self.loadTables()
         self.pushButton.clicked.connect(self.openApp)
         self.queryButton.clicked.connect(self.openQuery)
+
+        # Connect the menu action to the function
+        self.aboutAction.triggered.connect(self.showAccessInfo)
+
+    def showAccessInfo(self):
+            # Create and display the message box with the updated text
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("<b>Що означає ваш рівень доступу:</b><br>"
+                        "<b>Common</b> - ви маєте право лише на перегляд таблиць та виконання запитів до БД<br>"
+                        "<b>Operator</b> - ви маєте право редагувати дані в таблицях<br>"
+                        "<b>Admin</b> - ви маєте право додавати та редагувати юзерів<br>"
+                        "<b>root</b> - ви власник БД та можете все")
+            msg.setWindowTitle("Про доступи")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
 
     def openApp(self):
             page = self.comboBox.currentIndex()

@@ -1,5 +1,7 @@
 import pymysql
 from PyQt5 import QtWidgets
+
+import globals
 from WindowFiles.ManagementWindow import Ui_Management
 
 class ManagementWindow(QtWidgets.QMainWindow):
@@ -11,4 +13,4 @@ class ManagementWindow(QtWidgets.QMainWindow):
         self.set_user_info()
 
     def set_user_info(self):
-        self.ui.label_4.setText(f"Ви увійшли як {self.username}")
+        self.ui.label_4.setText(f"Ви увійшли як {self.username}<br>Ваш рівень доступу:{globals.username}")
