@@ -1,5 +1,6 @@
 import pymysql
 from PyQt5.QtWidgets import QTableWidgetItem
+from Services.validation import Validation
 
 class Query:
     def __init__(self, connection):

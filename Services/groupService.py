@@ -1,12 +1,13 @@
 import pymysql
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
-
+from Services.validation import Validation
 
 class Groups:
     def __init__(self, connection):
         self.connection = connection
 
+    @Validation.access_control
     def save_data(self, name, exam_id):
         if self.connection is None:
             print("З'єднання з базою даних не встановлене.")
@@ -26,6 +27,7 @@ class Groups:
         except pymysql.MySQLError as e:
             print(f"Помилка збереження даних: {e}")
 
+    @Validation.access_control
     def delete_selected_record(self, table_widget):
         selected_row = table_widget.currentRow()
 
@@ -83,6 +85,7 @@ class Groups:
 
         self.load_data_to_tablewidget(table_widget, query)
 
+    @Validation.access_control
     def update_data(self, table_widget):
         try:
             with self.connection.cursor() as cursor:

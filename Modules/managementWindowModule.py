@@ -12,22 +12,3 @@ class ManagementWindow(QtWidgets.QMainWindow):
 
     def set_user_info(self):
         self.ui.label_4.setText(f"Ви увійшли як {self.username}")
-
-    def has_root_access(self):
-        connection = pymysql.connect(
-            host="localhost",
-            user="your_user",
-            password="your_password",
-            database="course"
-        )
-        try:
-            with connection.cursor() as cursor:
-                query = "SELECT access FROM keys WHERE username = %s"
-                cursor.execute(query, (self.username,))
-                result = cursor.fetchone()
-                if result and result[0] == "root":
-                    return True
-                else:
-                    return False
-        finally:
-            connection.close()

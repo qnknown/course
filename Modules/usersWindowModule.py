@@ -29,7 +29,7 @@ class UsersWindow(QtWidgets.QMainWindow):
                 query = "SELECT access FROM `keys` WHERE username = %s"
                 cursor.execute(query, (globals.username,))
                 result = cursor.fetchone()
-                return result and result[0] == "root"
+                return result and result[0] in ("root", "Admin")
         except pymysql.MySQLError as e:
             print(f"Error while connecting to MySQL: {e}")
             return False

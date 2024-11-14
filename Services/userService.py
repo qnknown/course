@@ -1,7 +1,7 @@
 import pymysql
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
-
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
+import globals
 
 class Users:
     def __init__(self, connection):
@@ -52,6 +52,16 @@ class Users:
     def load_data_to_tablewidget(self, table_widget, query=None):
         try:
             with self.connection.cursor() as cursor:
+                cursor.execute("SELECT access FROM `keys` WHERE username = %s", (globals.username,))
+                access_level = cursor.fetchone()
+
+                if access_level and access_level[0] == "Admin":
+                    table_widget.setRowCount(1)
+                    table_widget.setColumnCount(1)
+                    table_widget.setHorizontalHeaderLabels(["Message"])
+                    table_widget.setItem(0, 0, QTableWidgetItem("Access Denied"))
+                    return
+
                 if query is None:
                     sql_query = "SELECT idkeys, username, password, access FROM `keys`"
                 else:
@@ -84,19 +94,43 @@ class Users:
 
         self.load_data_to_tablewidget(table_widget, query)
 
+
     def update_data(self, username, new_password, new_access):
         try:
             with self.connection.cursor() as cursor:
+                cursor.execute("SELECT access FROM `keys` WHERE username = %s", (globals.username,))
+                access_level = cursor.fetchone()
+
+                if access_level and access_level[0] == "Admin":
+                    msg_box = QMessageBox()
+                    msg_box.setIcon(QMessageBox.Warning)
+                    msg_box.setWindowTitle("Access Denied")
+                    msg_box.setText("You do not have permission to update data.")
+                    msg_box.exec_()
+                    return
+
                 update_query = """
                     UPDATE `keys`
                     SET password = %s, access = %s
                     WHERE username = %s
                 """
-
                 cursor.execute(update_query, (new_password, new_access, username))
-
                 self.connection.commit()
-                print(f"Data for user '{username}' updated successfully.")
+
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Information)
+                msg_box.setWindowTitle("Success")
+                msg_box.setText(f"Data for user '{username}' updated successfully.")
+                msg_box.exec_()
+
+        except pymysql.MySQLError as e:
+
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Critical)
+            msg_box.setWindowTitle("Error")
+            msg_box.setText(f"Error while updating data: {e}")
+            msg_box.exec_()
+
 
         except pymysql.MySQLError as e:
             print(f"Error updating data for user '{username}': {e}")

@@ -5,7 +5,6 @@ from WindowFiles.MainWindow import Ui_MainWindow
 from Modules.orderWindowModule import orderWindow
 from Modules.loginWindowModule import LoginWindow
 
-
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
