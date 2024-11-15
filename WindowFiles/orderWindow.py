@@ -122,17 +122,15 @@ class Ui_orderWindow(object):
             print("З'єднання з базою даних не встановлене.")
             return
 
-        # Отримати дані з полів вводу
         name = self.lineEdit_4.text()
-        specialty_id = self.comboBox_6.currentData()  # Отримуємо ID спеціальності
-        is_privileged = self.comboBox_7.currentIndex()  # Отримуємо індекс для Так (1) або Ні (0)
-        transfer = self.comboBox_8.currentIndex()  # Отримуємо індекс для Так (1) або Ні (0)
+        specialty_id = self.comboBox_6.currentData()
+        is_privileged = self.comboBox_7.currentIndex()
+        transfer = self.comboBox_8.currentIndex()
 
         if not name or specialty_id is None:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
-        # Call the function from the imported module
         save_data(self.connection, name, specialty_id, is_privileged, transfer)
 
     def retranslateUi(self, orderWindow):

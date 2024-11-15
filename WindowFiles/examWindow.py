@@ -143,7 +143,7 @@ class Ui_examWindow(object):
         is_creative = self.comboBox_6.currentData()
 
         if not name:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.exams.save_data(name, subject_1, subject_2, subject_3, is_creative)

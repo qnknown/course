@@ -121,7 +121,7 @@ class Ui_resultWindow(object):
         score = self.lineEdit_16.text()
 
         if not applicant_id or exam_id is None:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.results.save_data(applicant_id, exam_id, score)

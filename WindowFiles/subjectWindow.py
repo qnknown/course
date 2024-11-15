@@ -110,7 +110,7 @@ class Ui_Subjects(object):
         name = self.lineEdit_16.text()
 
         if not name:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.subjects.save_data(name)

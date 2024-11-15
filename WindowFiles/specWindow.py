@@ -128,7 +128,7 @@ class Ui_Specialties(object):
 
 
         if not name:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.specialties.save_data(name, department_id, group_id)

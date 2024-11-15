@@ -113,7 +113,7 @@ class Ui_groupWindow(object):
 
     def save_data(self):
         if self.connection is None:
-            print("З'єднання з базою даних не встановлене.")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         name = self.lineEdit_16.text()

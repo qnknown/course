@@ -131,7 +131,7 @@ class Ui_Applicants(object):
         transfer = self.comboBox_9.currentIndex()
 
         if not name or specialty_id is None:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.applicants.save_data(name, specialty_id, is_privileged, transfer)

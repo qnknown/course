@@ -120,7 +120,7 @@ class Ui_Department(object):
 
 
         if not name or faculty_id is None:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.departments.save_data(name, faculty_id)

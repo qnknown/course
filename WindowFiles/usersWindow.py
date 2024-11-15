@@ -152,7 +152,7 @@ class Ui_usersWindow(object):
         access = self.comboBox_4.currentText()
 
         if not username or password is None:
-            print("Всі поля повинні бути заповнені!")
+            QtWidgets.QMessageBox.warning(None, "Помилка", "Всі поля мають бути заповнені.")
             return
 
         self.users.save_data(username, password, access)

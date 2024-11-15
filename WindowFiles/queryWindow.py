@@ -135,9 +135,15 @@ class Ui_Query(object):
             self.query.query2(self.tableWidget_2)
         elif selected_index == 4:
             specialty_id = self.lineEdit.text()
+            if not specialty_id:
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Введіть назву спеціальності.")
+                return
             self.query.query3(self.tableWidget_2, specialty_id)
         elif selected_index == 5:
             specialty_id = self.lineEdit.text()
+            if not specialty_id:
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Введіть назву спеціальності.")
+                return
             self.query.query4(self.tableWidget_2, specialty_id)
         elif selected_index == 6:
             self.query.query5(self.tableWidget_2)
@@ -147,9 +153,15 @@ class Ui_Query(object):
             self.query.query53(self.tableWidget_2)
         elif selected_index == 9:
             faculty_id = self.lineEdit.text()
+            if not faculty_id:
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Введіть назву факультету.")
+                return
             self.query.query6(self.tableWidget_2, faculty_id)
         elif selected_index == 10:
             specialty_id = self.lineEdit.text()
+            if not specialty_id:
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Введіть назву спеціальності.")
+                return
             self.query.query62(self.tableWidget_2, specialty_id)
         elif selected_index == 11:
             self.query.query63(self.tableWidget_2)
@@ -167,6 +179,9 @@ class Ui_Query(object):
             self.query.query84(self.tableWidget_2)
         elif selected_index == 18:
             exam_id = self.lineEdit.text()
+            if not exam_id:
+                QtWidgets.QMessageBox.warning(None, "Помилка", "Введіть номер екзамену.")
+                return
             self.query.query9(self.tableWidget_2, exam_id)
         elif selected_index == 19:
             self.query.query10(self.tableWidget_2)
