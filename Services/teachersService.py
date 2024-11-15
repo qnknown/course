@@ -63,7 +63,7 @@ class Teachers:
                 table_widget.setRowCount(len(result))
                 table_widget.setColumnCount(2)
 
-                column_headers = ["ID", "Прізвище"]
+                column_headers = ["ID", "ПІБ"]
                 table_widget.setHorizontalHeaderLabels(column_headers)
 
                 for row_index, row_data in enumerate(result):

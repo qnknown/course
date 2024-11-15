@@ -72,7 +72,7 @@ class Users:
                 table_widget.setRowCount(len(result))
                 table_widget.setColumnCount(4)
 
-                column_headers = ["ID", "User", "Pass", "Access"]
+                column_headers = ["ID", "Юзернейм", "Пароль", "Р-нь доступа"]
                 table_widget.setHorizontalHeaderLabels(column_headers)
 
                 for row_index, row_data in enumerate(result):

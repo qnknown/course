@@ -16,7 +16,7 @@ class Validation:
                 msg_box = QMessageBox()
                 msg_box.setIcon(QMessageBox.Warning)
                 msg_box.setWindowTitle("Access Denied")
-                msg_box.setText("You do not have permission to perform this action.")
+                msg_box.setText("У вас нема права виконувати дану операцію.")
                 msg_box.exec_()
                 return
             return method(self, *args, **kwargs)

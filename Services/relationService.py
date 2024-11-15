@@ -63,7 +63,7 @@ class Relations:
                 table_widget.setRowCount(len(result))
                 table_widget.setColumnCount(3)
 
-                column_headers = ["ID", "Exam ID", "Teacher ID"]
+                column_headers = ["ID", "Екзамен ID", "Викладач ID"]
                 table_widget.setHorizontalHeaderLabels(column_headers)
 
                 for row_index, row_data in enumerate(result):

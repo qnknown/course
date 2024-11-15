@@ -79,7 +79,7 @@ class Query:
         JOIN subjects ON subjects.subjectID IN (exams.subject1, exams.subject2, exams.subject3)
         WHERE specialties.name = "{specialty_id}";
         """
-        headers = ["Name"]
+        headers = ["Назва"]
         self.display_query_result(table_widget, query, headers)
 
     def query4(self, table_widget, specialty_id):
@@ -93,7 +93,7 @@ class Query:
         WHERE specialties.name = "{specialty_id}"
         GROUP BY exams.id;
         """
-        headers = ["Exam", "Average Score"]
+        headers = ["Екзамен", "Середня оцінка"]
         self.display_query_result(table_widget, query, headers)
 
     def query5(self, table_widget):

@@ -23,9 +23,8 @@ class Applicants:
                     print("Спеціальність з таким ID не знайдена!")
                     return
 
-                group_id = result[0]  # Отримати значення group_id
+                group_id = result[0]
 
-                # Отримати назву групи для group_id
                 cursor.execute("SELECT name FROM grupy WHERE group_id = %s", (group_id,))
                 group_result = cursor.fetchone()
 
@@ -33,9 +32,8 @@ class Applicants:
                     print("Назва групи з таким ID не знайдена!")
                     return
 
-                group_name = group_result[0]  # Отримати назву групи
+                group_name = group_result[0]
 
-                # SQL-запит для вставки даних в базу
                 sql = """
                 INSERT INTO applicants (name, specialty_id, is_privileged, transfer, group_name)
                 VALUES (%s, %s, %s, %s, %s)
@@ -84,7 +82,7 @@ class Applicants:
                 table_widget.setRowCount(len(result))
                 table_widget.setColumnCount(6)
 
-                column_headers = ["ID", "Name", "Specialty ID", "Is Privileged", "Transfer", "Group Name"]
+                column_headers = ["ID", "Ім'я", "Спеціальність ID", "Чи є пільги", "Перевод", "Група"]
                 table_widget.setHorizontalHeaderLabels(column_headers)
 
                 for row_index, row_data in enumerate(result):
